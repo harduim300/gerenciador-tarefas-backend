@@ -7,16 +7,18 @@ export const createJWT = (id: number) => {
 }
 
 export const verifyJWT = async (req: ExtendedRequest, res: Response, next: NextFunction) => {
-    const authHeader = req.headers['auth_token'] as string;
+    console.log(req.headers)
+    const authHeader = req.cookies['auth_token'];
+    console.log(authHeader);
     if (!authHeader) {
         res.status(401).json({ error: "Acesso negado" });
         return;
     }
-    const token = authHeader.split(' ')[1]; 
+    const token = authHeader
     jwt.verify(
         token, 
         process.env.JWT_SECRET as string,
-        (err, decoded: any) => {
+        (err: any, decoded: any) => {
             if (err) {
                 res.status(500).json({ error: "Acesso negado" });
                 return;

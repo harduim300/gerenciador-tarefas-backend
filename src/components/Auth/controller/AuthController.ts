@@ -5,6 +5,7 @@ import { createJWT } from '../../../libs/jwt';
 import { UserService } from '../../Users/service/UsersService';
 import { authSignupSchema } from '../../../schemas/auth-signup';
 import { authSigninSchema } from '../../../schemas/auth-signin';
+import { ExtendedRequest } from '../../../types/extended-request';
 
 export class AuthController {
   private authService: AuthService;
@@ -41,7 +42,7 @@ export class AuthController {
         maxAge: 7 * 24 * 60 * 60 * 1000 // 7 dias em milissegundos
       });
 
-      res.status(200).json({ user: user });
+      res.status(200).json({ user: user, token: token });
       return;
     } catch (error) {
       res.status(500).json({ error: 'Erro ao realizar login' });
@@ -77,7 +78,7 @@ export class AuthController {
       });
 
       res.status(201).json({ 
-       use: user
+       user: user
       });
       return;
     } catch (error) {
@@ -86,7 +87,11 @@ export class AuthController {
     }
   }
 
-  async logout(req: Request, res: Response) {
+  async logout(req: ExtendedRequest, res: Response) {
+    if (!req.userId) {
+        res.status(401).json({ error: 'Acesso negado' });
+        return;
+    }
     try {
       res.clearCookie('auth_token', {
         httpOnly: true,

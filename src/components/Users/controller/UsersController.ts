@@ -74,6 +74,7 @@ export class UserController {
       return;
     }
   }
+  // Colocado porque foi pedido no desafio
   // Seria melhor um OTP para atualizacao de senha, logo modificaria o metodo
   // para receber o email e o OTP
   async updateUser(req: ExtendedRequest, res: Response) {
@@ -110,6 +111,7 @@ export class UserController {
     }
   }
 
+  // Colocado porque foi pedido no desafio
   // Acredito que nao seria necessario para um caso real, pois permitiria
   // Usuario sem permissao deletar outro usuario, tentaria fazer uma separacao de niveis
   // maior ou separar do sistema. Para o usuario apagar a conta faria por email com OTP

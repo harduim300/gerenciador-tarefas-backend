@@ -5,13 +5,11 @@ import path from "path";
 import router from "./routes";
 import cookieParser from 'cookie-parser';
 import { errorHandler, NotFoundRequest } from "./routes/errorHandler.routes";
-import { middlewareIntercept } from "./middleware/middleware";
 
 dotenv.config()
 const app = express();
 app.use(helmet());
 app.use(express.json())
-app.use(middlewareIntercept)
 app.use(cookieParser());
 app.use('/', router);
 app.get('/marco', (req,res) => {
