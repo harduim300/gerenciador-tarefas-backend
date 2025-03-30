@@ -7,9 +7,7 @@ export const createJWT = (id: number) => {
 }
 
 export const verifyJWT = async (req: ExtendedRequest, res: Response, next: NextFunction) => {
-    console.log(req.headers)
-    const authHeader = req.cookies['auth_token'];
-    console.log(authHeader);
+    const authHeader = req.cookies['authToken'];
     if (!authHeader) {
         res.status(401).json({ error: "Acesso negado" });
         return;

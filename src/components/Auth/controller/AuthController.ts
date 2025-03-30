@@ -19,7 +19,6 @@ export class AuthController {
     try {
       const data = authSigninSchema.parse(req.body);
       const { email, password } = data;
-
       const user = await this.authService.findByEmail(email);
       if (!user) {
         res.status(401).json({ error: 'Email ou senha inválidos' });
@@ -35,14 +34,12 @@ export class AuthController {
       const token = createJWT(user.id);
 
       // Configurando o cookie para manter o usuario logado
-      res.cookie('auth_token', token, {
-        httpOnly: true,
+      res.cookie('authToken', token, {
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict', 
         maxAge: 7 * 24 * 60 * 60 * 1000 // 7 dias em milissegundos
       });
 
-      res.status(200).json({ user: user, token: token });
+      res.status(200).json({ message: 'Login realizado com sucesso' });
       return;
     } catch (error) {
       res.status(500).json({ error: 'Erro ao realizar login' });
@@ -82,6 +79,7 @@ export class AuthController {
       });
       return;
     } catch (error) {
+      console.log(error)
       res.status(500).json({ error: 'Erro ao criar usuário' });
       return;
     }
@@ -93,10 +91,8 @@ export class AuthController {
         return;
     }
     try {
-      res.clearCookie('auth_token', {
-        httpOnly: true,
+      res.clearCookie('authToken', {
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict'
       });
       
       res.status(200).json({ message: 'Logout realizado com sucesso' });

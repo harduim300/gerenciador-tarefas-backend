@@ -5,12 +5,19 @@ import path from "path";
 import router from "./routes";
 import cookieParser from 'cookie-parser';
 import { errorHandler, NotFoundRequest } from "./routes/errorHandler.routes";
+import cors from 'cors';
 
 dotenv.config()
 const app = express();
 app.use(helmet());
-app.use(express.json())
 app.use(cookieParser());
+app.use(express.json())
+app.use(cors({
+    origin: ['http://localhost:5173', 'http://localhost:3000'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}))
 app.use('/', router);
 app.get('/marco', (req,res) => {
     res.json({response: "polo"})
