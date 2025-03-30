@@ -16,8 +16,9 @@ datasource db {
 model Task {
   id          String   @id @default(uuid())
   title       String
+  category    String
   description String?
-  status      String   @default("Not_Started")
+  status      String   @default("NOT_STARTED")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   taskUsers TaskUser[]
@@ -26,7 +27,7 @@ model Task {
 
 model TaskUser {
   id     String  @id @default(uuid())
-  permission String @default("User")
+  permission String @default("USER")
   taskId String
   userId String  
 

@@ -20,6 +20,7 @@ export class AuthController {
       const data = authSigninSchema.parse(req.body);
       const { email, password } = data;
       const user = await this.authService.findByEmail(email);
+      console.log(user)
       if (!user) {
         res.status(401).json({ error: 'Email ou senha inválidos' });
         return;
@@ -56,7 +57,7 @@ export class AuthController {
       const existingUser = await this.authService.findByEmail(email);
 
       if (existingUser) {
-        res.status(400).json({ error: 'Email já cadastrado' });
+        res.status(409).json({ error: 'Email já cadastrado' });
         return;
       }
 

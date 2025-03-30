@@ -2,6 +2,7 @@
 CREATE TABLE "Task" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
+    "category" TEXT NOT NULL,
     "description" TEXT,
     "status" TEXT NOT NULL DEFAULT 'Not_Started',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

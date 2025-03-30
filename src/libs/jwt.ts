@@ -2,7 +2,7 @@ import { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
 import { ExtendedRequest } from "../types/extended-request";
 
-export const createJWT = (id: number) => {
+export const createJWT = (id: string) => {
     return jwt.sign({ id }, process.env.JWT_SECRET as string, { expiresIn: "7d" });
 }
 
