@@ -19,10 +19,6 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }))
 app.use('/', router);
-app.get('/marco', (req,res) => {
-    res.json({response: "polo"})
-});
-
 
 app.use(NotFoundRequest)
 app.use(errorHandler)
