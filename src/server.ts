@@ -12,7 +12,7 @@ const app = express();
 app.use(helmet());
 app.use(cookieParser());
 app.use(express.json())
-app.use('*', cors())
+app.use(cors({origin: ['https://frontend-project-watch.vercel.app'], credentials: true}))
 app.use('/', router);
 
 app.use(NotFoundRequest)
