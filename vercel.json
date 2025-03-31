@@ -6,18 +6,18 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/auth/(.*)",
-      "dest": "./dist/server.js"
+      "source": "/auth/(.*)",
+      "destination": "/dist/server.js"
     },
     {
-      "src": "/tasks/(.*)",
-      "dest": "./dist/server.js"
+      "source": "/tasks/(.*)",
+      "destination": "./dist/server.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "./dist/server.js"
+      "source": "/(.*)",
+      "destination": "./dist/server.js"
     }
   ],
   "headers": [
