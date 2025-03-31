@@ -26,8 +26,6 @@ app.use(NotFoundRequest);
 // 🔹 Middleware de tratamento de erros
 app.use(errorHandler);
 
-// 🔹 Permite que o navegador faça preflight requests (*apenas* para OPTIONS)
-app.options("*", cors());
 
 app.listen(3000, () => {
     console.log("--------------------------------");
