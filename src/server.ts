@@ -12,8 +12,17 @@ const app = express();
 app.use(helmet());
 app.use(cookieParser());
 app.use(express.json())
-app.use(cors({origin: ['https://frontend-project-watch.vercel.app'], credentials: true}))
+app.use(cors({
+    origin: ['http://localhost:5173', 'http://localhost:3000', 'https://frontend-project-watch.vercel.app'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}))
 app.use('/', router);
+app.get('/marco', (req,res) => {
+    res.json({response: "polo"})
+});
+
 
 app.use(NotFoundRequest)
 app.use(errorHandler)
