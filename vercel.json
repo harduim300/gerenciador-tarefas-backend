@@ -26,7 +26,7 @@
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "https://gerenciador-tarefas-frontend-one.vercel.app"
+          "value": "*"
         },
         {
           "key": "Access-Control-Allow-Credentials",
