@@ -26,7 +26,7 @@
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "https://frontend-project-watch.vercel.app"
+          "value": "https://gerenciador-tarefas-frontend-one.vercel.app/"
         },
         {
           "key": "Access-Control-Allow-Credentials",
