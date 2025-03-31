@@ -1,31 +1,24 @@
 {
-    "version": 2,
-    "headers": [
-      {
-        "source": "/(.*)",
-        "headers": [
-          {
-            "key": "Access-Control-Allow-Origin",
-            "value": "https://frontend-project-watch.vercel.app"
-          },
-          {
-            "key": "Access-Control-Allow-Credentials",
-            "value": "true"
-          }
-        ]
-      }
-    ],
-    "builds": [
-      {
-        "src": "./dist/server.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "rewrites": [
-      {
-        "source": "/(.*)",
-        "destination": "/dist/server.js"
-      }
-    ]
-  }
+  "version": 2,
+  "builds": [
+    {
+      "src": "./dist/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/auth/(.*)",
+      "dest": "./dist/server.js"
+    },
+    {
+      "src": "/tasks/(.*)",
+      "dest": "./dist/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "./dist/server.js"
+    }
+  ]
+}
   
