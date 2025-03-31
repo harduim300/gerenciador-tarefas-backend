@@ -8,7 +8,7 @@ export const createJWT = (id: string) => {
 
 export const verifyJWT = async (req: ExtendedRequest, res: Response, next: NextFunction) => {
     res.setHeader('Access-Control-Allow-Origin', 'https://gerenciador-tarefas-frontend-one.vercel.app');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     const authHeader = req.cookies['authToken'];
     if (!authHeader) {

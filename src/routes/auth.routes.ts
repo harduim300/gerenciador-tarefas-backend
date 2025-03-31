@@ -9,14 +9,14 @@ const authController = new AuthController();
 // 🔹 CORS para rotas públicas (login e signup)
 const publicCors = cors({
     origin: 'https://gerenciador-tarefas-frontend-one.vercel.app',
-    methods: ['GET', 'POST', 'OPTIONS'],
+    methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type']
 });
 
 // 🔹 CORS para rotas privadas (logout, que exige autenticação)
 const privateCors = cors({
     origin: 'https://gerenciador-tarefas-frontend-one.vercel.app',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 });

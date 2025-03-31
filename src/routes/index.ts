@@ -7,7 +7,7 @@ import cors from 'cors';
 
 const privateCors = cors({
     origin: 'https://gerenciador-tarefas-frontend-one.vercel.app',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 });
