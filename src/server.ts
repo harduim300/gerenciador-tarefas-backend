@@ -26,6 +26,7 @@ app.get('/marco', (req,res) => {
 
 app.use(NotFoundRequest)
 app.use(errorHandler)
+app.options('*', cors())
 
 
 app.listen(3000, () => {
