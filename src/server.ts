@@ -1,36 +1,36 @@
-import  express, { RequestHandler }  from "express";
+import express from "express";
 import dotenv from "dotenv";
-import helmet from "helmet"
-import path from "path";
-import router from "./routes";
-import cookieParser from 'cookie-parser';
+import helmet from "helmet";
+import cookieParser from "cookie-parser";
 import { errorHandler, NotFoundRequest } from "./routes/errorHandler.routes";
-import cors from 'cors';
+import router from "./routes";
+import cors from "cors";
 
-dotenv.config()
+dotenv.config();
+
 const app = express();
+
+// 🔹 Proteção extra
 app.use(helmet());
+
+// 🔹 Parse de cookies e JSON
 app.use(cookieParser());
-app.use(express.json())
-app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:3000', 'https://gerenciador-tarefas-frontend-one.vercel.app'],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}))
-app.use('/', router);
-app.get('/marco', (req,res) => {
-    res.json({response: "polo"})
-});
+app.use(express.json());
 
+// 🔹 Definição de rotas
+app.use("/", router);
 
-app.use(NotFoundRequest)
-app.use(errorHandler)
-app.options('*', cors())
+// 🔹 Middleware para rotas não encontradas (404)
+app.use(NotFoundRequest);
 
+// 🔹 Middleware de tratamento de erros
+app.use(errorHandler);
+
+// 🔹 Permite que o navegador faça preflight requests (*apenas* para OPTIONS)
+app.options("*", cors());
 
 app.listen(3000, () => {
-    console.log("--------------------------------")
-    console.log("Servidor está rodando em http://localhost:3000")
-    console.log("--------------------------------")
+    console.log("--------------------------------");
+    console.log("Servidor está rodando em http://localhost:3000");
+    console.log("--------------------------------");
 });
