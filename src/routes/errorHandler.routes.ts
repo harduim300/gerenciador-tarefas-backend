@@ -11,7 +11,7 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 }
 
 export const corsMiddleware = (req: Request, res: Response, next: NextFunction): void => {
-  res.setHeader("Access-Control-Allow-Origin", req.headers.origin ||  "http://localhost:5173");
+  res.setHeader("Access-Control-Allow-Origin", req.headers.origin ||  "https://gerenciador-tarefas-frontend-one.vercel.app");
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
   res.setHeader(

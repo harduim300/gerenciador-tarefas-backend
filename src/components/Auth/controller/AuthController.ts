@@ -37,7 +37,9 @@ export class AuthController {
       console.log(token)
       // Configurando o cookie para manter o usuario logado
       res.cookie('authToken', token, {
-        secure: false,
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dias em milissegundos
       });
 
@@ -94,7 +96,9 @@ export class AuthController {
     }
     try {
       res.clearCookie('authToken', {
-        secure: false,
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
       });
       
       res.status(200).json({ message: 'Logout realizado com sucesso' });
