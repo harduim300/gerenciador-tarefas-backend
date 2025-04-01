@@ -34,10 +34,11 @@ export class AuthController {
 
       const token = createJWT(user.id);
 
+      console.log(token)
       // Configurando o cookie para manter o usuario logado
       res.cookie('authToken', token, {
         secure: process.env.NODE_ENV === 'production',
-        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 dias em milissegundos
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dias em milissegundos
       });
 
       res.status(200).json({ message: 'Login realizado com sucesso' });

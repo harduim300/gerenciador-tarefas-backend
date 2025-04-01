@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import cors from 'cors';
 import { AuthController } from '../components/Auth/controller/AuthController';
 import { verifyJWT } from '../libs/jwt';
 
