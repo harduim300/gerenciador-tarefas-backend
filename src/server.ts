@@ -10,8 +10,9 @@ dotenv.config();
 
 const app = express();
 app.use(cors());
-app.options("*", (req, res) => {
+app.options("/", (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "https://gerenciador-tarefas-frontend-one.vercel.app");
+    next()
     res.status(200).send();
 });
 
