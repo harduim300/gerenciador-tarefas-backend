@@ -9,21 +9,21 @@ import router from "./routes";
 dotenv.config();
 
 const app = express();
-app.get("/", (req, res) => {
-    res.send("Seja bem vindo ao Gerenciador de Tarefas");
-});
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", 'https://gerenciador-tarefas-frontend-one.vercel.app');
+    res.header("Access-Control-Allow-Origin", '*');
     res.header("Access-Control-Allow-Methods", "GET,DELETE,POST,PUT,OPTIONS");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
     res.header("Access-Control-Allow-Credentials", "true");
-
+    
     if (req.method === "OPTIONS") {
-      res.status(200).end();
-      return;
+        res.status(200).end();
+        return;
     }
-  
+    
     next();
+});
+app.get("/", (req, res) => {
+    res.send("Seja bem vindo ao Gerenciador de Tarefas");
 });
 app.use(cookieParser());
 app.use(express.json());
