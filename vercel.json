@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "./dist/server.js",
+      "src": "dist/server.js",
       "use": "@vercel/node",
       "config": { "includeFiles": ["dist/**"] }
     }
@@ -21,7 +21,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/dist/server.js",
+      "dest": "dist/server.js",
       "methods": ["GET", "POST", "PUT", "DELETE"],
       "headers": {
         "Access-Control-Allow-Origin": "https://gerenciador-tarefas-frontend-one.vercel.app",
@@ -43,7 +43,7 @@
     },
     {
       "src": "/tasks/(.*)",
-      "dest": "/dist/server.js",
+      "dest": "dist/server.js",
       "methods": ["GET", "POST", "PUT", "DELETE"],
       "headers": {
         "Access-Control-Allow-Origin": "https://gerenciador-tarefas-frontend-one.vercel.app",
@@ -65,7 +65,7 @@
     },
     {
       "src": "/auth/login",
-      "dest": "/dist/server.js",
+      "dest": "dist/server.js",
       "methods": ["GET", "POST", "PUT", "DELETE"],
       "headers": {
         "Access-Control-Allow-Origin": "https://gerenciador-tarefas-frontend-one.vercel.app",
@@ -87,7 +87,7 @@
     },
     {
       "src": "/usuario/(.*)",
-      "dest": "/dist/server.js",
+      "dest": "dist/server.js",
       "methods": ["GET", "POST", "PUT", "DELETE"],
       "headers": {
         "Access-Control-Allow-Origin": "https://gerenciador-tarefas-frontend-one.vercel.app",
