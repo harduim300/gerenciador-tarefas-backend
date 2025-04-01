@@ -26,7 +26,13 @@ app.use(express.json());
 // 🔹 Definição de rotas
 app.use("/", router);
 
-app.options("*", cors());
+app.options('*', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.sendStatus(204);
+});
 
 // 🔹 Middleware para rotas não encontradas (404)
 app.use(NotFoundRequest);
