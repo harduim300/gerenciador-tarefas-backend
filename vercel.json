@@ -8,32 +8,32 @@
   ],
   "routes": [
     {
-      "source": "/auth/login",
+      "src": "/auth/login",
       "destination": "/dist/server.js"
     },
     {
-      "source": "/auth/signup",
-      "destination": "/dist/server.js"
+      "src": "/auth/signup",
+      "dest": "/dist/server.js"
     },
     {
-      "source": "/auth/logout",
-      "destination": "/dist/server.js"
+      "src": "/auth/logout",
+      "dest": "/dist/server.js"
     },
     {
-      "source": "/tasks/(.*)",
-      "destination": "./dist/server.js"
+      "src": "/tasks/(.*)",
+      "dest": "./dist/server.js"
     },
     {
-      "source": "/tasks/(.*)/share",
-      "destination": "./dist/server.js"
+      "src": "/tasks/(.*)/share",
+      "dest": "./dist/server.js"
     },
     {
-      "source": "/usuario/(.*)",
-      "destination": "./dist/server.js"
+      "src": "/usuario/(.*)",
+      "dest": "./dist/server.js"
     },
     {
-      "source": "/(.*)",
-      "destination": "./dist/server.js"
+      "src": "/(.*)",
+      "dest": "./dist/server.js"
     }
   ]
 }
