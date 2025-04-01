@@ -107,4 +107,12 @@ export class AuthController {
     }
   }
 
+  async verifyToken(req: ExtendedRequest, res: Response) {
+    if (!req.userId) {
+      res.status(401).json({ error: 'Acesso negado' });
+      return;
+    }
+    res.status(200).json({ message: 'Token válido' });
+    return;
+  }
 }
