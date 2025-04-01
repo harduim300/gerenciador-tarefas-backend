@@ -20,7 +20,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "src/server.ts",
+      "dest": "/src/server.ts",
       "methods": ["GET", "POST", "PUT", "DELETE"],
       "headers": {
         "Access-Control-Allow-Origin": "https://gerenciador-tarefas-frontend-one.vercel.app",
@@ -42,7 +42,7 @@
     },
     {
       "src": "/tasks/(.*)",
-      "dest": "src/server.ts",
+      "dest": "/src/server.ts",
       "methods": ["GET", "POST", "PUT", "DELETE"],
       "headers": {
         "Access-Control-Allow-Origin": "https://gerenciador-tarefas-frontend-one.vercel.app",
@@ -64,7 +64,7 @@
     },
     {
       "src": "/auth/login",
-      "dest": "src/server.ts",
+      "dest": "/src/server.ts",
       "methods": ["GET", "POST", "PUT", "DELETE"],
       "headers": {
         "Access-Control-Allow-Origin": "https://gerenciador-tarefas-frontend-one.vercel.app",
@@ -86,7 +86,7 @@
     },
     {
       "src": "/usuario/(.*)",
-      "dest": "src/server.ts",
+      "dest": "/src/server.ts",
       "methods": ["GET", "POST", "PUT", "DELETE"],
       "headers": {
         "Access-Control-Allow-Origin": "https://gerenciador-tarefas-frontend-one.vercel.app",
