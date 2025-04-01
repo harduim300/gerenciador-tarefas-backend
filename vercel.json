@@ -9,7 +9,7 @@
   "routes": [
     {
       "src": "/auth/login",
-      "destination": "/dist/server.js"
+      "dest": "/dist/server.js"
     },
     {
       "src": "/auth/signup",
@@ -29,6 +29,10 @@
     },
     {
       "src": "/usuario/(.*)",
+      "dest": "./dist/server.js"
+    },
+    {
+      "src": "/(.*)",
       "dest": "./dist/server.js"
     }
   ]
