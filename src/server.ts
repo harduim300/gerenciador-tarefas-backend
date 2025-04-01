@@ -9,12 +9,11 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
-const corsOptions = {
-  origin: 'http://localhost:5173',
-  credentials: true,
-  optionSuccessStatus: 200
-}
-app.use(cors(corsOptions));
+app.use(cors({
+    origin: 'http://localhost:5173', 
+    credentials: true, 
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // 🔹 Proteção extra
 app.use(helmet());
@@ -26,13 +25,7 @@ app.use(express.json());
 // 🔹 Definição de rotas
 app.use("/", router);
 
-app.options('*', (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.sendStatus(204);
-});
+app.options("*", cors());
 
 // 🔹 Middleware para rotas não encontradas (404)
 app.use(NotFoundRequest);
