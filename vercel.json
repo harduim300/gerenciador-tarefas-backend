@@ -2,8 +2,9 @@
   "version": 2,
   "outputDirectory": "dist",
   "functions": {
-    "src": "src/server.ts",
-    "use": "@vercel/node"
+    "src/server.ts": {
+      "use": "@vercel/node"
+    }
   },
   "routes": [
     {
