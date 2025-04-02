@@ -115,6 +115,7 @@ export class AuthController {
       return;
     } else {
       res.status(200).json({message: 'Acesso Autorizado'})
+      return;
     }
   }
 }
