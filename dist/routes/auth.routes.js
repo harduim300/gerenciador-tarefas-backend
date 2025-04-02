@@ -8,6 +8,7 @@ const authController = new AuthController_1.AuthController();
 // 🔹 Rotas públicas
 router.post('/login', authController.signin.bind(authController));
 router.post('/signup', authController.signup.bind(authController));
-// 🔹 Rota privada (precisa de token para deslogar)
 router.post('/logout', jwt_1.verifyJWT, authController.logout.bind(authController));
+router.get('/verify', jwt_1.verifyJWT, authController.verify.bind(authController));
+// 🔹 Rota privada (precisa de token para verificar)
 exports.default = router;

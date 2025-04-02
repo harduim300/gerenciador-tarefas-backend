@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { corsMiddleware, errorHandler, NotFoundRequest } from "./routes/errorHandler.routes";
+import { errorHandler, NotFoundRequest } from "./routes/errorHandler.routes";
 import router from "./routes";
 
 dotenv.config();

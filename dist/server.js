@@ -7,21 +7,15 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const helmet_1 = __importDefault(require("helmet"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const cors_1 = __importDefault(require("cors"));
 const errorHandler_routes_1 = require("./routes/errorHandler.routes");
 const routes_1 = __importDefault(require("./routes"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", 'https://gerenciador-tarefas-frontend-one.vercel.app');
-    res.header("Access-Control-Allow-Methods", "GET,DELETE,POST,PUT,OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.header("Access-Control-Allow-Credentials", "true");
-    if (req.method === "OPTIONS") {
-        res.status(200).end();
-        return;
-    }
-    next();
-});
+app.use((0, cors_1.default)({
+    origin: "https://gerenciador-tarefas-frontend-one.vercel.app",
+    credentials: true
+}));
 app.get("/", (req, res) => {
     res.send("Seja bem vindo ao Gerenciador de Tarefas");
 });

@@ -74,6 +74,7 @@ class AuthController {
                 console.log(token);
                 // Configurando o cookie para manter o usuario logado
                 res.cookie('authToken', token, {
+                    httpOnly: true,
                     secure: true,
                     sameSite: 'none',
                     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dias em milissegundos
@@ -82,6 +83,7 @@ class AuthController {
                 return;
             }
             catch (error) {
+                console.log(error);
                 res.status(500).json({ error: 'Erro ao realizar login' });
                 return;
             }
@@ -129,6 +131,7 @@ class AuthController {
             }
             try {
                 res.clearCookie('authToken', {
+                    httpOnly: true,
                     secure: true,
                     sameSite: 'none',
                 });
@@ -137,6 +140,18 @@ class AuthController {
             }
             catch (error) {
                 res.status(500).json({ error: 'Erro ao realizar logout' });
+                return;
+            }
+        });
+    }
+    verify(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!req.userId) {
+                res.status(401).json({ error: 'Acesso Negado' });
+                return;
+            }
+            else {
+                res.status(200).json({ message: 'Acesso Autorizado' });
                 return;
             }
         });

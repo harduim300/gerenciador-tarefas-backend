@@ -46,6 +46,7 @@ export class AuthController {
       res.status(200).json({ message: 'Login realizado com sucesso' });
       return;
     } catch (error) {
+      console.log(error)
       res.status(500).json({ error: 'Erro ao realizar login' });
       return;
     }
