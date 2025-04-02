@@ -37,6 +37,7 @@ export class AuthController {
       console.log(token)
       // Configurando o cookie para manter o usuario logado
       res.cookie('authToken', token, {
+        httpOnly: false,
         secure: true,
         sameSite: 'none',
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dias em milissegundos
@@ -95,6 +96,7 @@ export class AuthController {
     }
     try {
       res.clearCookie('authToken', {
+        httpOnly: false,
         secure: true,
         sameSite: 'none',
       });
@@ -105,14 +107,5 @@ export class AuthController {
       res.status(500).json({ error: 'Erro ao realizar logout' });
       return;
     }
-  }
-
-  async verifyToken(req: ExtendedRequest, res: Response) {
-    if (!req.userId) {
-      res.status(401).json({ error: 'Acesso negado' });
-      return;
-    }
-    res.status(200).json({ message: 'Token válido' });
-    return;
   }
 }
