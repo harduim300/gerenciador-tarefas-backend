@@ -108,4 +108,13 @@ export class AuthController {
       return;
     }
   }
+
+  async verify(req: ExtendedRequest, res: Response) {
+    if (!req.userId) {
+      res.status(401).json({ error: 'Acesso Negado' });
+      return;
+    } else {
+      res.status(200).json({message: 'Acesso Autorizado'})
+    }
+  }
 }
