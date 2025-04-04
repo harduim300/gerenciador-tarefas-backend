@@ -14,8 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyJWT = exports.createJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const jwt_env_1 = __importDefault(require("../environment/jwt.env"));
 const createJWT = (id) => {
-    return jsonwebtoken_1.default.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+    return jsonwebtoken_1.default.sign({ id }, jwt_env_1.default, { expiresIn: "7d" });
 };
 exports.createJWT = createJWT;
 const verifyJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -25,9 +26,9 @@ const verifyJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         return;
     }
     const token = authHeader;
-    jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    jsonwebtoken_1.default.verify(token, jwt_env_1.default, (err, decoded) => {
         if (err) {
-            res.status(500).json({ error: "Acesso negado" });
+            res.status(500).json({ error: "Erro ao verificar o token" });
             return;
         }
         req.userId = decoded.id;

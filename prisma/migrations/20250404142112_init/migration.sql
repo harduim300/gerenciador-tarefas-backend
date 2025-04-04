@@ -4,7 +4,7 @@ CREATE TABLE "Task" (
     "title" TEXT NOT NULL,
     "category" TEXT NOT NULL,
     "description" TEXT,
-    "status" TEXT NOT NULL DEFAULT 'Not_Started',
+    "status" TEXT NOT NULL DEFAULT 'NOT_STARTED',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -14,7 +14,7 @@ CREATE TABLE "Task" (
 -- CreateTable
 CREATE TABLE "TaskUser" (
     "id" TEXT NOT NULL,
-    "permission" TEXT NOT NULL DEFAULT 'User',
+    "permission" TEXT NOT NULL DEFAULT 'USER',
     "taskId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
 

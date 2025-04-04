@@ -21,12 +21,12 @@ export class AuthService {
     const user = await this.findByEmail(email);
     
     if (!user) {
-      throw new Error('Email ou senha inválidos');
+      throw new Error('Email não encontrado');
     }
 
     const validPassword = await argon2.verify(user.password, password);
     if (!validPassword) {
-      throw new Error('Email ou senha inválidos');
+      throw new Error('Senha incorreta');
     }
 
     const token = createJWT(user.id);
@@ -34,8 +34,8 @@ export class AuthService {
   }
 
   async signup(data: { name: string; email: string; password: string }) {
-    const validatedData = authSignupSchema.parse(data);
-    const { name, email, password } = validatedData;
+
+    const { name, email, password } = data;
 
     const existingUser = await this.findByEmail(email);
     if (existingUser) {

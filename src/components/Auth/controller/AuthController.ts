@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { AuthService } from '../service/AuthService';
 import { ExtendedRequest } from '../../../types/extended-request';
+import { authSignupSchema } from '../../../schemas/auth-signup';
 
 export class AuthController {
   private authService: AuthService;
@@ -36,7 +37,15 @@ export class AuthController {
 
   async signup(req: Request, res: Response) {
     try {
-      await this.authService.signup(req.body);
+      const data = req.body;
+      const validatedData = authSignupSchema.safeParse(data);
+
+      if (!validatedData.success) {
+        res.status(400).json({ error: validatedData.error.message });
+        return
+      }
+
+      await this.authService.signup(validatedData.data);
       res.status(201).json({ message: 'Usuário criado com sucesso' });
       return
     } catch (error) {
