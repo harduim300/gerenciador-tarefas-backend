@@ -1,9 +1,10 @@
 import { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
 import { ExtendedRequest } from "../types/extended-request";
+import JWT_SECRET from "../environment/jwt.env";
 
 export const createJWT = (id: string) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET as string, { expiresIn: "7d" });
+    return jwt.sign({ id }, JWT_SECRET as string, { expiresIn: "7d" });
 }
 
 export const verifyJWT = async (req: ExtendedRequest, res: Response, next: NextFunction) => {
@@ -15,10 +16,10 @@ export const verifyJWT = async (req: ExtendedRequest, res: Response, next: NextF
     const token = authHeader
     jwt.verify(
         token, 
-        process.env.JWT_SECRET as string,
+        JWT_SECRET as string,
         (err: any, decoded: any) => {
             if (err) {
-                res.status(500).json({ error: "Acesso negado" });
+                res.status(500).json({ error: "Erro ao verificar o token" });
                 return;
             }
             req.userId = decoded.id;
