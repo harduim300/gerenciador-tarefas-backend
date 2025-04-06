@@ -2,38 +2,45 @@ import { prisma } from '../../../libs/prisma';
 import { CreateTaskInput, ShareTaskInput, UpdateTaskInput } from '../../../schemas/task.schema';
 export class TaskService {
   async createTask(data: CreateTaskInput) {
-    
-    return prisma.task.create({
-      data: {
-        title: data.title,
-        category: data.category,
-        description: data.description,
-        status: data.status || 'NOT_STARTED',
-        taskUsers: {
-          create: {
-            permission: 'OWNER',
-            user: {
-              connect: {
-                id: data.userId
+    let task;
+    try {
+      task = await prisma.task.create({
+        data: {
+          title: data.title,
+          category: data.category,
+          description: data.description,
+          status: data.status || 'NOT_STARTED',
+          taskUsers: {
+            create: {
+              permission: 'OWNER',
+              user: {
+                connect: {
+                  id: data.userId
+                }
               }
             }
           }
-        }
-      },
-      include: {
-        taskUsers: {
-          include: {
-            user: true
+        },
+        include: {
+          taskUsers: {
+            include: {
+              user: true
+            }
           }
         }
-      }
-    });
+      });
+    } catch (error) {
+      throw new Error('Create_Task_Error');
+    }
+    return task;
   }
 
   async getAllTasks(userId: string) {
-    return prisma.task.findMany({
-      where: {
-        taskUsers: {
+    let tasks;
+    try {
+      tasks = await prisma.task.findMany({
+        where: {
+          taskUsers: {
           some: {
             userId: userId
           }
@@ -55,15 +62,21 @@ export class TaskService {
           select: {
             taskUsers: true
           }
+          }
         }
-      }
-    });
+      });
+    } catch (error) {
+      throw new Error('Get_All_Tasks_Error');
+    }
+    return tasks;
   }
 
   async getTaskById(id: string, userId: string) {
-    const task = await prisma.task.findFirst({
-      where: {
-        id,
+    let task;
+    try {
+      task = await prisma.task.findFirst({
+        where: {
+          id,
         taskUsers: {
           some: {
             userId: userId
@@ -89,35 +102,48 @@ export class TaskService {
         }
       }
     });
-
+    } catch (error) {
+      throw new Error('Get_Task_Error');
+    }
     if (!task) {
-      throw new Error('Tarefa não encontrada ou acesso negado');
+      throw new Error('Not_Found');
     }
 
     return task;
   }
 
   async checkTaskAccess(taskId: string, userId: string) {
-    const taskUser = await prisma.taskUser.findFirst({
-      where: {
-        taskId,
-        userId
-      }
-    });
-
-    return taskUser !== null; // Retorna true se o usuário tem qualquer acesso à tarefa
+    let taskUser;
+    try {
+      taskUser = await prisma.taskUser.findFirst({
+        where: {
+          taskId,
+          userId
+        }
+      });
+    } catch (error) {
+      throw new Error('Error_Checking_Task_Access_Prisma');
+    }
+    return taskUser !== null; 
   }
 
   async updateTask(userId: string, data: UpdateTaskInput) {
     // Verifica se o usuário tem acesso à tarefa
-    const hasAccess = await this.checkTaskAccess(data.id, userId);
+    let hasAccess;
+    try {
+      hasAccess = await this.checkTaskAccess(data.id, userId);
+    } catch (error) {
+      throw error;
+    }
     if (!hasAccess) {
-      throw new Error('Acesso negado a esta tarefa');
+      throw new Error('Access_Denied');
     }
 
-    return prisma.task.update({
-      where: { id: data.id  },
-      data: {
+    let task;
+    try {
+      task = await prisma.task.update({
+        where: { id: data.id  },
+        data: {
         title: data.title,
         category: data.category,
         description: data.description,
@@ -136,60 +162,90 @@ export class TaskService {
         }
       }
     });
+    } catch (error) {
+      throw new Error('Update_Task_Error');
+    }
+    return task;
   }
 
   async checkTaskPermission(taskId: string, userId: string) {
-    const taskUser = await prisma.taskUser.findFirst({
-      where: {
-        taskId,
+    let taskUser;
+    try {
+      taskUser = await prisma.taskUser.findFirst({
+        where: {
+          taskId,
         userId
       }
     });
-
+    } catch (error) {
+      throw new Error('Error_Checking_Task_Permission_Prisma');
+    }
     return taskUser?.permission === 'OWNER';
   }
 
   async deleteTask(id: string) {
-
-    return prisma.task.delete({
-      where: { id },
-      include: {
+    let task; 
+    try {
+      task = await prisma.task.delete({
+        where: { id },
+        include: {
         taskUsers: true
       }
     });
+    } catch (error) {
+      throw new Error('Error_Deleting_Task_Prisma');
+    }
+    return task;
   }
 
   async shareTask(data: ShareTaskInput) {
     // Primeiro verifica se o usuário é o Owner
-    const isOwner = await this.checkTaskPermission(data.taskId, data.userId);
+    let isOwner;
+    try {
+      isOwner = await this.checkTaskPermission(data.taskId, data.userId);
+    } catch (error) {
+      throw error;
+    }
     if (!isOwner) {
       throw new Error('Unauthorized');
     }
 
     // Busca o usuário pelo email
-    const targetUser = await prisma.user.findUnique({
-      where: { email: data.targetEmail }
-    });
+    let targetUser;
+    try {
+      targetUser = await prisma.user.findUnique({
+        where: { email: data.targetEmail }
+      });
+    } catch (error) {
+      throw new Error('Error_Finding_User_Prisma');
+    }
 
     if (!targetUser) {
       throw new Error('Not_Found');
     }
 
     // Verifica se o usuário alvo já está associado à task
-    const existingShare = await prisma.taskUser.findFirst({
-      where: {
-        taskId: data.taskId,
-        userId: targetUser.id
-      }
-    });
+    let existingShare;
+    try {
+      existingShare = await prisma.taskUser.findFirst({
+        where: {
+          taskId: data.taskId,
+          userId: targetUser.id
+        }
+      });
+    } catch (error) {
+      throw new Error('Error_Finding_Task_User_Prisma');
+    }
 
     if (existingShare) {
       throw new Error('Conflict');
     }
 
     // Compartilha a task com o usuário
-    return prisma.taskUser.create({
-      data: {
+    let taskUser;
+    try {
+      taskUser = await prisma.taskUser.create({
+        data: {
         permission: 'USER',
         task: {
           connect: {
@@ -207,5 +263,9 @@ export class TaskService {
         user: true
       }
     });
+    } catch (error) {
+      throw new Error('Error_Sharing_Task_Prisma');
+    }
+    return taskUser;
   }
 } 

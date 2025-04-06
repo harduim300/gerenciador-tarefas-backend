@@ -12,7 +12,7 @@ export class TaskController {
 
   async createTask (req: ExtendedRequest, res: Response) {
     if (!req.userId) {
-      res.status(401).json({ error: 'Acesso negado' });
+      res.status(401).json({ error: 'Access_Denied' });
       return;
     }
     const { data, error } = TaskSchema.safeParse(req.body);
@@ -25,34 +25,36 @@ export class TaskController {
           ...data,
           userId: req.userId
         });
-        console.log("Tarefa criada com sucesso", task);
         res.status(201).json(task);
         return;
-    } catch (error) {
-        console.log("Erro ao criar tarefa", error);
-        res.status(400).json({ error: 'Erro ao criar tarefa' });
+    } catch (error: any) {
+        res.status(400).json({ error: error.message });
         return;
     }
   }
 
+  // -----------------------------------------
+
   async getAllTasks(req: ExtendedRequest, res: Response) {
     if (!req.userId) {
-      res.status(401).json({ error: 'Acesso negado' });
+      res.status(401).json({ error: 'Access_Denied' });
       return;
     }
     try {
       const tasks = await this.taskService.getAllTasks(req.userId);
       res.status(200).json(tasks);
       return;
-    } catch (error) {
-      res.status(400).json({ error: 'Erro ao buscar tarefas' });
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
       return;
     }
   }
 
+  // -----------------------------------------
+
   async getTaskById(req: ExtendedRequest, res: Response) {
     if (!req.userId) {
-      res.status(401).json({ error: 'Acesso negado' });
+      res.status(401).json({ error: 'Access_Denied' });
       return;
     }
     try {
@@ -60,18 +62,20 @@ export class TaskController {
       res.status(200).json(task);
       return;
     } catch (error: any) {
-      if (error.message === 'Tarefa não encontrada ou acesso negado') {
+      if (error.message === 'Not_Found') {
         res.status(404).json({ error: error.message });
         return;
       }
-      res.status(400).json({ error: 'Erro ao buscar tarefa' });
+      res.status(400).json({ error: error.message });
       return;
     }
   }
 
+  // -----------------------------------------
+
   async updateTask(req: ExtendedRequest, res: Response) {
     if (!req.userId) {
-      res.status(401).json({ error: 'Acesso negado' });
+      res.status(401).json({ error: 'Access_Denied' });
       return;
     }
 
@@ -91,45 +95,60 @@ export class TaskController {
       res.status(200).json(task);
       return;
     } catch (error: any) {
-      if (error.message === 'Acesso negado a esta tarefa') {
+      if (error.message === 'Access_Denied') {
         res.status(403).json({ error: error.message });
         return;
       }
-      res.status(400).json({ error: 'Erro ao atualizar tarefa' });
+      res.status(400).json({ error: error.message });
       return;
     }
   }
 
+  // -----------------------------------------
+
   async deleteTask(req: ExtendedRequest, res: Response) {
+
     if (!req.userId) {
-      res.status(401).json({ error: 'Acesso negado' });
+      res.status(401).json({ error: 'Access_Denied' });
       return;
     }
 
     try {
+
       const isOwner = await this.taskService.checkTaskPermission(req.params.id, req.userId);
-      
       if (!isOwner) {
-        res.status(403).json({ error: 'Apenas o proprietário pode deletar a tarefa' });
+        res.status(403).json({ error: 'Access_Denied' });
         return;
       }
-
       const task = await this.taskService.deleteTask(req.params.id);
       if (!task) {
-        res.status(404).json({ error: 'Tarefa não encontrada' });
+        res.status(404).json({ error: 'Task_Not_Found' });
         return;
       }
       res.status(204).send();
       return;
-    } catch (error) {
-      res.status(400).json({ error: 'Erro ao deletar tarefa' });
+
+    } catch (error: any) {
+
+      if (error.message === 'Error_Checking_Task_Permission_Prisma') {
+        res.status(403).json({ error: 'Access_Denied' });
+        return;
+      } else if (error.message === 'Error_Deleting_Task_Prisma') {
+        res.status(404).json({ error: 'Error_On_Deleting_Task' });
+        return;
+      }
+      res.status(400).json({ error: error.message });
       return;
+
     }
+
   }
+
+  // -----------------------------------------
 
   async shareTask(req: ExtendedRequest, res: Response) {
     if (!req.userId) {
-      res.status(401).json({ error: 'Acesso negado' });
+      res.status(401).json({ error: 'Access_Denied' });
       return;
     }
 
@@ -149,19 +168,19 @@ export class TaskController {
       }
 
       const task = await this.taskService.shareTask(data);
-      console.log("Tarefa compartilhada com sucesso", task);
       res.status(200).json(task);
       return;
     } catch (error: any) {
+
       console.log("Erro ao compartilhar tarefa", error);
       if (error.message === 'Unauthorized') {
-        res.status(403).json({ error: 'Acesso negado a esta tarefa' });
+        res.status(403).json({ error: 'Access_Denied' });
         return;
       } else if (error.message === 'Not_Found') {
-        res.status(404).json({ error: 'Usuário não encontrado' });
+        res.status(404).json({ error: 'User_Not_Found' });
         return;
       } else if (error.message === 'Conflict') {
-        res.status(409).json({ error: 'Usuário já está associado a esta tarefa' });
+        res.status(409).json({ error: 'User_Already_Associated_With_Task' });
         return;
       }
       res.status(400).json({ error: error.message });
